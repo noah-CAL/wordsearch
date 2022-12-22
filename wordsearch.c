@@ -24,3 +24,27 @@ bool word_in_list(char *word) {
     printf("%s is not in dictionary\n", word);
     return false;
 }
+
+/** Determines the number of wordlists of the form r"dict_\d+\.txt" present
+ * in the current directory and returns an array of FILEs.
+*/
+FILE **get_wordlists() {
+    FILE **lists = calloc(sizeof(FILE *));
+    int i = 0;
+    do {
+        char *strp = "dict_%d.txt";
+        int ret_code = asprintf(&strp, i);
+        if (ret_code == -1) {
+            printf("MALLOC FAILED HERE WAAAA"); // todo: handle the malloc error
+            break;
+        }
+        FILE *f = fopen(strp, "r");
+        if (f == NULL) {
+            break;  // reached the end of the dictionaries.
+        }
+        lists[i] = f;
+        i += 1;
+        realloc(lists, sizeof(FILE *) * (i + 1));
+    } while (true);
+    return lists;
+}
