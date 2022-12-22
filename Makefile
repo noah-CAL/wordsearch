@@ -14,3 +14,8 @@ $(EXEC): $(OBJFILES)
 .PHONY: clean
 clean:
 	rm -f $(OBJFILES)
+	rm -f $(wildcard dict_*.txt)
+
+.PHONY: build-dicts
+build-dicts:
+	python3 randomize.py 10
