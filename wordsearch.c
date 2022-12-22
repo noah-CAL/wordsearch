@@ -6,6 +6,12 @@
 #define DICTNAME "dictionary.txt"
 
 bool word_in_list(char *word) {
+    FILE **lists = get_wordlists();
+    int num_lists = 0;
+    for (int i = 0; lists[i] != NULL; i += 1) {
+        num_lists += 1;
+    }
+    # TODO: parallelize and optimize
     FILE *wordlist = fopen("dictionary.txt", "r");
     char *lineptr = NULL;
     ssize_t nread;
