@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -I.
+CFLAGS = -Wall -I. -ggdb
 SRC = $(wildcard *.c)
 OBJFILES = $(SRC:.c=.o)
 DEPS = $(wildcard *.h)
@@ -10,7 +10,6 @@ EXEC = wordsearch
 
 $(EXEC): $(OBJFILES)
 	$(CC) -o $(EXEC) $(OBJFILES) $(CFLAGS)
-	@make clean
 
 .PHONY: clean
 clean:
