@@ -5,8 +5,6 @@
 #include <string.h>
 #include "wordsearch.h"
 
-#define DICTNAME "dictionary.txt"
-
 /** Returns the filename of the dictionary DICT_NUM according to the file name
  * form r"dict_\d+\.txt if it is present in the current directory
 */
@@ -29,7 +27,11 @@ char *get_filename(int dict_num) {
 int get_num_wordlists() {
     int fcount = 0;
     while (true) {
-        FILE *fp = fopen(get_filename(fcount), "r");
+        char *filename = get_filename(fcount);
+        if (filename == NULL) {
+            return fcount;
+        }
+        FILE *fp = fopen(filename, "r");
         if (fp == NULL) {
             return fcount;
         }
@@ -52,27 +54,29 @@ FILE **get_wordlists() {
 }
 
 bool word_in_list(char *word) {
-    FILE **lists = get_wordlists();
-    int num_lists = 0;
-    for (int i = 0; lists[i] != NULL; i += 1) {
-        num_lists += 1;
-    }
+    // FILE **lists = get_wordlists();
+    // int num_lists = 0;
+    // for (int i = 0; lists[i] != NULL; i += 1) {
+    //     num_lists += 1;
+    // }
     // TODO: parallelize and optimize
-    FILE *wordlist = fopen("dictionary.txt", "r");
-    char *lineptr = NULL;
+    FILE *wordlist = fopen("dictionary_large.txt", "r");
+    char *lineptr;
     ssize_t nread;
     do {
+        lineptr = NULL;
         size_t n = 0;
         nread = getline(&lineptr, &n, wordlist); 
         if (lineptr[nread-1] == '\n') {
             lineptr[nread-1] = '\0';
         }
+        if (n >= 3 && lineptr[nread-2] == '\r') {
+            lineptr[nread-2] = '\0';
+        }
     } while (nread != -1 && strcmp(word, lineptr) != 0);
     fclose(wordlist);
-    if (strcmp(word, lineptr) == 0) {
-        printf("%s found in dictionary!\n", word);
-        return true;
-    }
-    printf("%s is not in dictionary\n", word);
-    return false;
+    bool found = strcmp(word, lineptr) == 0;
+    free(lineptr);
+    // Todo: (future) free all files opened in **lists
+    return found;
 }

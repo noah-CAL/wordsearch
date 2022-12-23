@@ -8,6 +8,10 @@ int main(int argc, char **argv) {
     }
     char *word = argv[1];
     printf("Searching for %s in dictionary...\n", word);
-    word_in_list(word);
+    if (word_in_list(word)) {
+        printf("%s found in dictionary!\n", word);
+    } else {
+        printf("%s is not in dictionary\n", word);
+    }
     return 0;
 }
