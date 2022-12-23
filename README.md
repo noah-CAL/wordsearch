@@ -10,4 +10,7 @@ Learning objectives:
 2) Work with C file readers and file I/O
 3) Use OpenMP to parallize the search and make it more efficient
 
-The file `randomize.py` contains a function `randomize_wordlists` which splits up `dictionary_large.txt` into N smaller dictionary files with an independent random word ordering. Thus, the C `wordsearch` program can be tested by determining if a given word is found in 2 text files or 80 textfiles.
+The file `randomize.py` contains a function `randomize_wordlists` which splits up `dictionary_large.txt` into N smaller dictionary files with an independent random word ordering. Thus, the C `wordsearch` program can be tested by determining if a given word is found in 2 text files vs. 200 textfiles.
+
+## Timing results (200 dictionary files + 8 threads)
+With 200 dictionary files and 8 threads on my laptop, average speedup is 2x with a simple parallelization approach using OpenMP.
