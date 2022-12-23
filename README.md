@@ -1,4 +1,4 @@
-Wordlist taken from: mit.edu/~ecprice/wordlist.10000
+Wordlist taken from: mit.edu/~ecprice/wordlist.100000
 
 # WORDSEARCH
 
