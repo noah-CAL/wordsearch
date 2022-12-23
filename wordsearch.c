@@ -110,6 +110,10 @@ bool word_in_dict_optimized(char *word) {
             FILE *wordlist = fopen(get_filename(i), "r");
             if (word_in_sublist(wordlist, word)) {
                 fclose(wordlist);
+                /* end loop for the other threads. this operation results in a race condition,
+                 * but will eventually stop the threads without enforcing an atomic or critical
+                 * serial section which will greatly slow down parallel processing. */
+                num_threads = num_lists; 
                 #pragma omp atomic 
                 found = found | true;
             }
