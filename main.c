@@ -12,11 +12,12 @@ double time_function(bool (*search_func)(char *), char *word) {
 }
 
 void time_search_algorithms(char *word) {
-    printf("Timing the algorithms...\n");
-    printf("Search (unoptimized): %f seconds\n", time_function(word_in_dict_unoptimized, word));
-    printf("Search (optimized): %f seconds\n", time_function(word_in_dict_optimized, word));
-    // Print speedup?
-    // printf("Speedup: %fx", )
+    printf("Timing the algorithms against %d dictionaries...\n", get_num_wordlists());
+    double unoptimized = time_function(word_in_dict_unoptimized, word);
+    double optimized = time_function(word_in_dict_optimized, word);
+    printf("Search (unoptimized): %f seconds\n", unoptimized);
+    printf("Search (optimized): %f seconds\n", optimized);
+    printf("Speedup: %.2fx\n", unoptimized / optimized);
 }
 
 int main(int argc, char **argv) {
@@ -26,7 +27,7 @@ int main(int argc, char **argv) {
     }
     char *word = argv[1];
     printf("Searching for %s in dictionary...\n", word);
-    if (word_in_dict_optimized(word)) {
+    if (word_in_dict_unoptimized(word)) {
         printf("%s found in dictionary!\n", word);
     } else {
         printf("%s is not in dictionary\n", word);

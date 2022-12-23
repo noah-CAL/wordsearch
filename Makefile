@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -I. -ggdb -fopenmp
+CFLAGS = -Wall -I. -ggdb -fopenmp -lm -pthread
 SRC = $(wildcard *.c)
 OBJFILES = $(SRC:.c=.o)
 DEPS = $(wildcard *.h)
@@ -19,4 +19,4 @@ clean:
 
 .PHONY: build-dicts
 build-dicts:
-	python3 randomize.py 50
+	python3 randomize.py 200 

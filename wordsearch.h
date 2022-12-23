@@ -10,4 +10,9 @@ bool word_in_dict_unoptimized(char *word);
  * Uses OpenMP to speed up processing. */
 bool word_in_dict_optimized(char *word);
 
+/** Returns the number of wordlists of the form r"dict_\d+\.txt" present
+ * in the current directory.
+*/
+int get_num_wordlists();
+
 #endif

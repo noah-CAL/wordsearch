@@ -21,7 +21,7 @@ char *get_filename(int dict_num) {
     return buf;
 }
 
-/** Determines the number of wordlists of the form r"dict_\d+\.txt" present
+/** Returns the number of wordlists of the form r"dict_\d+\.txt" present
  * in the current directory.
 */
 int get_num_wordlists() {
@@ -98,6 +98,25 @@ bool word_in_dict_unoptimized(char *word) {
  * of the form dict_i.txt. Uses OpenMP to parallelize performance and speed up.
 */
 bool word_in_dict_optimized(char *word) {
-    // TODO: optimize algorithm
-    word_in_dict_unoptimized(word);
+    // FILE **lists = get_wordlists();  // don't need this?
+    int num_lists = get_num_wordlists();
+    int max_threads = omp_get_max_threads();
+    printf("num_lists: %d  max_threads: %d\n", num_lists, max_threads);
+    int num_threads = (int) fmin(num_lists, max_threads);
+    omp_set_num_threads(num_threads);
+    printf("Running search with %d threads...\n", num_threads);
+    bool found = false;
+    #pragma omp parallel 
+    {
+        int thread_id = omp_get_thread_num();
+        for (int i = thread_id; i < num_lists; i += num_threads) {
+            FILE *wordlist = fopen(get_filename(i), "r");
+            if (word_in_sublist(wordlist, word)) {
+                fclose(wordlist);
+                #pragma omp atomic 
+                found = found | true;
+            }
+        }
+    }
+    return found;
 }
