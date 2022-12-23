@@ -79,9 +79,7 @@ bool word_in_sublist(FILE *wordlist, char *word) {
  * of the form dict_i.txt
 */
 bool word_in_dict_unoptimized(char *word) {
-    // FILE **lists = get_wordlists();  // don't need this?
     int num_lists = get_num_wordlists();
-    // TODO: parallelize and optimize
     bool found = false;
     for (int i = 0; i < num_lists; i += 1) {
         FILE *wordlist = fopen(get_filename(i), "r");
@@ -98,7 +96,6 @@ bool word_in_dict_unoptimized(char *word) {
  * of the form dict_i.txt. Uses OpenMP to parallelize performance and speed up.
 */
 bool word_in_dict_optimized(char *word) {
-    // FILE **lists = get_wordlists();  // don't need this?
     int num_lists = get_num_wordlists();
     int max_threads = omp_get_max_threads();
     printf("num_lists: %d  max_threads: %d\n", num_lists, max_threads);
