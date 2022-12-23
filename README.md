@@ -14,7 +14,9 @@ The file `randomize.py` contains a function `randomize_wordlists` which splits u
 
 ## Timing results (400 dictionary files + 8 threads)
 With 400 dictionary files and 8 threads on my laptop, average speedup is ~2x with a simple parallelization approach using OpenMP.
+
 **Unoptimized**: serial approach which loops through every word in each file until a word is found (or not found in worst-case scenario).
+
 **Optimized**: splits up work among `min(num_dictionaries, num_threads)` different threads resulting in a performance gain.
 
 ![image](https://user-images.githubusercontent.com/90151434/209312034-9a041374-c7b5-4609-b04d-72b8c2e4f9ec.png)
