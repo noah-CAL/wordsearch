@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -I. -ggdb
+CFLAGS = -Wall -I. -ggdb -fopenmp
 SRC = $(wildcard *.c)
 OBJFILES = $(SRC:.c=.o)
 DEPS = $(wildcard *.h)

@@ -78,7 +78,7 @@ bool word_in_sublist(FILE *wordlist, char *word) {
 /** Returns TRUE if WORD is present in the many dictionaries in the current directory 
  * of the form dict_i.txt
 */
-bool word_in_dict(char *word) {
+bool word_in_dict_unoptimized(char *word) {
     // FILE **lists = get_wordlists();  // don't need this?
     int num_lists = get_num_wordlists();
     // TODO: parallelize and optimize
@@ -92,4 +92,12 @@ bool word_in_dict(char *word) {
         }
     }
     return false;
+}
+
+/** Returns TRUE if WORD is present in the many dictionaries in the current directory 
+ * of the form dict_i.txt. Uses OpenMP to parallelize performance and speed up.
+*/
+bool word_in_dict_optimized(char *word) {
+    // TODO: optimize algorithm
+    word_in_dict_unoptimized(word);
 }
