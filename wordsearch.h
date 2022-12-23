@@ -4,6 +4,6 @@
 #include <stdbool.h>
 
 /** Returns TRUE if WORD is in the dictionary. FALSE otherwise. */
-bool word_in_list(char *word);
+bool word_in_dict(char *word);
 
 #endif

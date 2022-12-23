@@ -35,6 +35,7 @@ int get_num_wordlists() {
         if (fp == NULL) {
             return fcount;
         }
+        fclose(fp);
         fcount += 1;
     }
     return 0;
@@ -53,14 +54,8 @@ FILE **get_wordlists() {
     return lists;
 }
 
-bool word_in_list(char *word) {
-    // FILE **lists = get_wordlists();
-    // int num_lists = 0;
-    // for (int i = 0; lists[i] != NULL; i += 1) {
-    //     num_lists += 1;
-    // }
-    // TODO: parallelize and optimize
-    FILE *wordlist = fopen("dictionary_large.txt", "r");
+/** Returns TRUE if WORD is present in the WORDLIST. */
+bool word_in_sublist(FILE *wordlist, char *word) {
     char *lineptr;
     ssize_t nread;
     do {
@@ -74,9 +69,27 @@ bool word_in_list(char *word) {
             lineptr[nread-2] = '\0';
         }
     } while (nread != -1 && strcmp(word, lineptr) != 0);
-    fclose(wordlist);
     bool found = strcmp(word, lineptr) == 0;
     free(lineptr);
-    // Todo: (future) free all files opened in **lists
     return found;
+
+}
+
+/** Returns TRUE if WORD is present in the many dictionaries in the current directory 
+ * of the form dict_i.txt
+*/
+bool word_in_dict(char *word) {
+    // FILE **lists = get_wordlists();  // don't need this?
+    int num_lists = get_num_wordlists();
+    // TODO: parallelize and optimize
+    bool found = false;
+    for (int i = 0; i < num_lists; i += 1) {
+        FILE *wordlist = fopen(get_filename(i), "r");
+        found = word_in_sublist(wordlist, word);
+        fclose(wordlist);
+        if (found) {
+            return true;
+        }
+    }
+    return false;
 }

@@ -19,4 +19,4 @@ clean:
 
 .PHONY: build-dicts
 build-dicts:
-	python3 randomize.py 10
+	python3 randomize.py 50
