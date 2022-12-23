@@ -6,7 +6,7 @@ This is a brief project to find whether a word is in a *randomized* list of 100,
 
 Learning objectives:
 
-1) Become more comfortable with C user input
+1) Learn Makefiles to build project
 2) Work with C file readers and file I/O
 3) Use OpenMP to parallize the search and make it more efficient
 

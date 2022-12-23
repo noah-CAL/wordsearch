@@ -10,6 +10,7 @@ EXEC = wordsearch
 
 $(EXEC): $(OBJFILES)
 	$(CC) -o $(EXEC) $(OBJFILES) $(CFLAGS)
+	@make build-dicts
 
 .PHONY: clean
 clean:
