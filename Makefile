@@ -10,6 +10,9 @@ EXEC = wordsearch
 
 $(EXEC): $(OBJFILES)
 	$(CC) -o $(EXEC) $(OBJFILES) $(CFLAGS)
+
+build: $(OBJFILES)
+	@make $(EXEC)
 	@make build-dicts
 
 .PHONY: clean
@@ -19,4 +22,11 @@ clean:
 
 .PHONY: build-dicts
 build-dicts:
-	python3 randomize.py 200 
+	python3 randomize.py 40
+
+.PHONY: time
+time:
+	@make -s clean
+	@make -s $(EXEC)
+	python3 randomize.py 400
+	@./$(EXEC) aaaaaaa
