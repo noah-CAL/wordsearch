@@ -4,6 +4,8 @@ import random
 import re
 import sys
 
+ROOT = "./wordsrc/"
+
 def randomize_wordlists(n=10):
     """
     Randomizes and creates a set of N wordlists from the dictionary of 100,000 english words. 
@@ -11,14 +13,14 @@ def randomize_wordlists(n=10):
     of words.
     """
     # Delete any current lists to restart the randomization
-    curr_lists = [list for list in os.listdir() if re.search(r"dict_\d+\.txt", list)]
+    curr_lists = [list for list in os.listdir(ROOT) if re.search(ROOT + r"dict_\d+\.txt", list)]
     for wordlist in curr_lists:
         if os.path.exists(wordlist):
             os.remove(wordlist)
 
-    SOURCE_LIST = "dictionary_large.txt"
+    SOURCE_LIST = ROOT + "dictionary_large.txt"
     # Use a DeQueue for fast insertion on either sides of the list
-    wordlists = {f"dict_{i}.txt": collections.deque() 
+    wordlists = {ROOT + f"dict_{i}.txt": collections.deque() 
                     for i in range(n)}
     with open(SOURCE_LIST, "r") as f:
         dequeue_list = list(wordlists.values())

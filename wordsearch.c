@@ -5,14 +5,16 @@
 #include <string.h>
 #include "wordsearch.h"
 
+#define ROOT "./wordsrc/"
+
 /** Returns the filename of the dictionary DICT_NUM according to the file name
  * form r"dict_\d+\.txt if it is present in the current directory
 */
 char *get_filename(int dict_num) {
-    size_t size = sizeof("dict_.txt") + \
+    size_t size = sizeof(ROOT "dict_.txt") + \
             sizeof(char) * (floor(dict_num / 10) + 1);
     char *buf = malloc(size);
-    char *format = "dict_%d.txt";
+    char *format = ROOT "dict_%d.txt";
     int code = snprintf(buf, size, format, dict_num);
     if (code == -1) {
         printf("snprintf failed with dictionary #%d", dict_num);

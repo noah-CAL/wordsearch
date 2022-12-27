@@ -18,7 +18,7 @@ build: $(OBJFILES)
 .PHONY: clean
 clean:
 	rm -f $(OBJFILES)
-	rm -f $(wildcard dict_*.txt)
+	rm -f $(wildcard ./wordsrc/dict_*.txt)
 
 .PHONY: build-dicts
 build-dicts:
@@ -30,3 +30,10 @@ time:
 	@make -s $(EXEC)
 	python3 randomize.py 400
 	@./$(EXEC) aaaaaaa
+
+.PHONY: test
+test:
+	@make -s clean
+	@make -s $(EXEC)
+	python3 randomize.py 10
+	@python3 test.py
