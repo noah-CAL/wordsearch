@@ -1,5 +1,6 @@
 #include <math.h>
 #include <omp.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -94,14 +95,12 @@ bool word_in_dict_unoptimized(char *word) {
 
 /** Returns TRUE if WORD is present in the many dictionaries in the current directory 
  * of the form dict_i.txt. Uses OpenMP to parallelize performance and speed up.
-*/
+ */
 bool word_in_dict_optimized(char *word) {
     int num_lists = get_num_wordlists();
     int max_threads = omp_get_max_threads();
-    printf("num_lists: %d  max_threads: %d\n", num_lists, max_threads);
     int num_threads = (int) fmin(num_lists, max_threads);
     omp_set_num_threads(num_threads);
-    printf("Running search with %d threads...\n", num_threads);
     bool found = false;
     #pragma omp parallel 
     {

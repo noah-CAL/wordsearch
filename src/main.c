@@ -1,41 +1,61 @@
-#include <omp.h>
+#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include "include/time.h"
 #include "include/wordsearch.h"
 
-/** Returns the time elapsed for the program to search the dictionaries for WORD
- * with different search algorithms.
-*/
-double time_function(bool (*search_func)(char *), char *word) {
-    double start = omp_get_wtime();
-    search_func(word);
-    return omp_get_wtime() - start;
-}
+#define OPSTRING "eath"  // command line options arguments
+#define SEARCH_MODES enum SEARCH_MODES { EXACT, APPROXIMATE }
+#define USAGE_STR "Usage: %s [-" OPSTRING "] word...\n"
+#define PRINT_USAGE_DETAILS() (fprintf(stderr, USAGE_STR, argv[0]))
 
-void time_search_algorithms(char *word) {
-    printf("Timing the algorithms against %d dictionaries...\n", get_num_wordlists());
-    double unoptimized = time_function(word_in_dict_unoptimized, word);
-    double optimized = time_function(word_in_dict_optimized, word);
-    printf("Search (unoptimized): %f seconds\n", unoptimized);
-    printf("Search (optimized): %f seconds\n", optimized);
-    printf("Speedup: %.2fx\n", unoptimized / optimized);
-}
 
 int main(int argc, char **argv) {
     if (get_num_wordlists() == 0) {
         printf("Zero wordlists found in " ROOT " ...did you run 'make build'?\n");
-        return -1;
+        exit(EXIT_FAILURE);
     }
-    if (argc <= 1) {
+    if (argc == 1) {
+        PRINT_USAGE_DETAILS();
+        exit(EXIT_FAILURE);
+    }
+    bool time = false;
+    SEARCH_MODES search_mode = EXACT;
+    int opt = getopt(argc, argv, OPSTRING);
+    for (; opt != -1; opt = getopt(argc, argv, OPSTRING)) {
+        switch(opt) {
+            case 'e': search_mode = EXACT; break;
+            case 'a': search_mode = APPROXIMATE; break;
+            case 't': time = true; break;
+            case 'h':
+                printf("Arguments:\n" \
+                "-e  Exact Match (default)\n" \
+                "-a  Approximate Match\n" \
+                "-t  Time the search algorithms\n" \
+                "-h  List command arguments\n");
+                exit(EXIT_SUCCESS);
+            default:
+                PRINT_USAGE_DETAILS();
+                exit(EXIT_FAILURE);
+        }
+    }
+    if (optind == argc) {
         printf("Please specify a word to search.\n");
-        return 1;
+        exit(EXIT_FAILURE);
     }
-    char *word = argv[1];
-    printf("Searching for %s in dictionary...\n", word);
-    if (word_in_dict_unoptimized(word)) {
-        printf("%s found in dictionary!\n", word);
-    } else {
-        printf("%s is not in dictionary\n", word);
+    if (search_mode == EXACT) {
+        char *word = argv[optind];
+        printf("Searching for %s in dictionary...\n", word);
+        printf("%s %s in dictionary.\n", word,
+                word_in_dict_optimized(word) ? "found" : "is not");
+        if (time) {
+            time_search_algorithms(word);
+        }
     }
-    time_search_algorithms(word);
+    else if (search_mode == APPROXIMATE) {
+        printf("Approximate searching not yet implemented. ");
+        exit(EXIT_SUCCESS);
+    }
     return 0;
 }
