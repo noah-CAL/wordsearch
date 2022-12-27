@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "include/lsh.h"
+#include "include/spellchecker.h"
 #include "include/wordsearch.h"
 
 #define min(a, b) (((a) < (b)) ? (a) : (b))
