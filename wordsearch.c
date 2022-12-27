@@ -3,9 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "wordsearch.h"
+#include "include/wordsearch.h"
 
-#define ROOT "./wordsrc/"
 
 /** Returns the filename of the dictionary DICT_NUM according to the file name
  * form r"dict_\d+\.txt if it is present in the current directory
@@ -50,8 +49,7 @@ FILE **get_wordlists() {
     int filecount = get_num_wordlists();
     FILE **lists = calloc(filecount, sizeof(FILE *));
     for (int i = 0; i < filecount; i += 1) {
-        FILE *fp = fopen(get_filename(i), "r");
-        lists[i] = fp;
+        lists[i] = fopen(get_filename(i), "r");
     }
     return lists;
 }

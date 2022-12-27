@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 
+#define ROOT "./wordsrc/"
+
 /** Returns TRUE if WORD is in the dictionary. FALSE otherwise. */
 bool word_in_dict_unoptimized(char *word);
 

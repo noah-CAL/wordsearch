@@ -1,6 +1,6 @@
 #include <omp.h>
 #include <stdio.h>
-#include "wordsearch.h"
+#include "include/wordsearch.h"
 
 /** Returns the time elapsed for the program to search the dictionaries for WORD
  * with different search algorithms.
@@ -21,6 +21,10 @@ void time_search_algorithms(char *word) {
 }
 
 int main(int argc, char **argv) {
+    if (get_num_wordlists() == 0) {
+        printf("Zero wordlists found in " ROOT " ...did you run 'make build'?\n");
+        return -1;
+    }
     if (argc <= 1) {
         printf("Please specify a word to search.\n");
         return 1;
