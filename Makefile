@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -I. -ggdb -fopenmp -lm -pthread
-SRC = $(wildcard *.c)
+SRC = $(wildcard ./src/*.c)
 OBJFILES = $(SRC:.c=.o)
 DEPS = $(wildcard ./include/*.h)
 EXEC = ./bin/wordsearch
