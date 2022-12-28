@@ -1,15 +1,21 @@
 CC = gcc
-CFLAGS = -Wall -I. -ggdb -fopenmp -lm -pthread
+CFLAGS = -Wall -I. -fopenmp -lm -pthread
 SRC = $(wildcard ./src/*.c)
 OBJFILES = $(SRC:.c=.o)
 DEPS = $(wildcard ./include/*.h)
 EXEC = ./bin/wordsearch
+DEBUG = 
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(EXEC): $(OBJFILES)
-	$(CC) -o $(EXEC) $(OBJFILES) $(CFLAGS)
+	@echo "\nOptimizing build. Run \"make debug\" for GGDB debugging.\n"
+	$(CC) -o $(EXEC) $(OBJFILES) $(CFLAGS) -O3
+
+.PHONY: debug
+debug: $(OBJFILES)
+	$(CC) -o $(EXEC) $(OBJFILES) $(CFLAGS) -ggdb
 
 build: $(OBJFILES)
 	@make $(EXEC)
@@ -18,6 +24,7 @@ build: $(OBJFILES)
 .PHONY: clean
 clean:
 	rm -f $(OBJFILES)
+	rm -rf $(wildcard *.o)
 	rm -f $(wildcard ./wordsrc/dict_*.txt)
 
 .PHONY: build-dicts
@@ -29,11 +36,5 @@ time:
 	@make -s clean
 	@make -s $(EXEC)
 	python3 randomize.py 400
-	@./$(EXEC) aaaaaaa
+	@./$(EXEC) -t aaaaaaa
 
-.PHONY: test
-test:
-	@make -s clean
-	@make -s $(EXEC)
-	python3 randomize.py 10
-	@python3 test.py
