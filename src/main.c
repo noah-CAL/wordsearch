@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
     }
     if (search_mode == EXACT) {
         char *word = argv[optind];
-        printf("Searching for %s in dictionary...\n", word);
+        printf("Searching dictionaries for %s (exact match)...\n", word);
         printf("%s %s in dictionary.\n", word,
                 word_in_dict_optimized(word) ? "found" : "is not");
         if (time) {
