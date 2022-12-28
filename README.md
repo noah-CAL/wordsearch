@@ -19,4 +19,4 @@ With 400 dictionary files and 8 threads on my laptop, average speedup is ~2x wit
 
 **Optimized**: splits up work among `min(num_dictionaries, num_threads)` different threads resulting in a performance gain.
 
-![image](https://github.com/noah-CAL/wordsearch/blob/main/img/timing_example_2022_12_27.jpg)
+![Timing example screenshot](https://github.com/noah-CAL/wordsearch/blob/main/img/timing_example_2022_12_27.jpg)
