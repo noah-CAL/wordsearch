@@ -19,4 +19,4 @@ With 400 dictionary files and 8 threads on my laptop, average speedup is ~2x wit
 
 **Optimized**: splits up work among `min(num_dictionaries, num_threads)` different threads resulting in a performance gain.
 
-![image](https://user-images.githubusercontent.com/90151434/209312034-9a041374-c7b5-4609-b04d-72b8c2e4f9ec.png)
+![image](https://user-images.githubusercontent.com/90151434/209740931-fe64220b-1716-4504-971c-fce44daec0f9.png)
