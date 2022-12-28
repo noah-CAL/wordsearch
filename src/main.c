@@ -9,7 +9,12 @@
 #define SEARCH_MODES enum SEARCH_MODES { EXACT, APPROXIMATE }
 #define USAGE_STR "Usage: %s [-" OPSTRING "] word...\n"
 #define PRINT_USAGE_DETAILS() (fprintf(stderr, USAGE_STR, argv[0]))
-
+#define PRINT_OPT_ARGS() (\
+                printf("Arguments:\n" \
+                "-e  Exact Match (default)\n" \
+                "-a  Approximate Match\n" \
+                "-t  Time the search algorithms\n" \
+                "-h  List command arguments\n"))
 
 int main(int argc, char **argv) {
     if (get_num_wordlists() == 0) {
@@ -18,6 +23,7 @@ int main(int argc, char **argv) {
     }
     if (argc == 1) {
         PRINT_USAGE_DETAILS();
+        PRINT_OPT_ARGS();
         exit(EXIT_FAILURE);
     }
     bool time = false;
@@ -29,11 +35,7 @@ int main(int argc, char **argv) {
             case 'a': search_mode = APPROXIMATE; break;
             case 't': time = true; break;
             case 'h':
-                printf("Arguments:\n" \
-                "-e  Exact Match (default)\n" \
-                "-a  Approximate Match\n" \
-                "-t  Time the search algorithms\n" \
-                "-h  List command arguments\n");
+                PRINT_OPT_ARGS();
                 exit(EXIT_SUCCESS);
             default:
                 PRINT_USAGE_DETAILS();
@@ -41,6 +43,7 @@ int main(int argc, char **argv) {
         }
     }
     if (optind == argc) {
+        PRINT_USAGE_DETAILS();
         printf("Please specify a word to search.\n");
         exit(EXIT_FAILURE);
     }
